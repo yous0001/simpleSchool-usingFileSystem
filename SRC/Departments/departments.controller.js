@@ -1,0 +1,27 @@
+import { readData, writeData } from "../../DB/connection.js"
+
+
+export const getDepartments=async(req,res,next)=>{
+    let departments=await readData("departments.json")
+    res.json({message:'done',departments})
+}
+
+export const addDepartment=async(req,res,next)=>{
+    const {id,name}=req.body;
+
+    let departments=await readData("departments.json")
+
+    const isDepartmentIDExists=departments.find(department=>department.id==id)
+    console.log(isDepartmentIDExists);
+    
+    if(isDepartmentIDExists){
+        return res.status(409).json({
+            message:"department id is aleardy exists"
+        })
+    }
+    const newDepartment={id,name}
+    departments.push(newDepartment)
+    await writeData("departments.json",departments)
+
+    res.json({message:'done',newDepartment})
+}
