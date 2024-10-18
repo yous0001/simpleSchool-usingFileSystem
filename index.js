@@ -8,6 +8,7 @@ const app=express()
 const port =3000
 
 app.use(express.json())
+
 app.use("/student",studentsRouter)
 app.use("/courses",coursesRouter)
 app.use("/departments",departmentsRouter)
