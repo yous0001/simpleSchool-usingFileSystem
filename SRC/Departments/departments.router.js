@@ -5,6 +5,7 @@ const router =Router()
 
 router.get("/",departmentsController.getDepartments)
 router.get("/:id",departmentsController.getSpecificDepartment)
+router.delete("/:id",departmentsController.deleteDepartment)
 router.post("/add",departmentsController.addDepartment)
 
 export default router
