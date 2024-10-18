@@ -2,8 +2,15 @@ import { readData, writeData } from "../../DB/connection.js"
 
 
 export const getDepartments=async(req,res,next)=>{
-    let departments=await readData("departments.json")
+    const departments=await readData("departments.json")
     res.json({message:'done',departments})
+}
+
+export const getSpecificDepartment=async(req,res,next)=>{
+    const {id}=req.params
+    const departments=await readData("departments.json")
+    const department=departments.find(item=>item.id==id)
+    res.json({message:'done',department})
 }
 
 export const addDepartment=async(req,res,next)=>{
