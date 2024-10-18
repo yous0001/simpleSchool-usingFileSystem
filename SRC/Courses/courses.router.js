@@ -3,4 +3,7 @@ import * as coursesController from "./courses.controller.js"
 
 const router =Router()
 
+router.get("/",coursesController.getCourses)
+router.post("/add",coursesController.addCourses)
+
 export default router
