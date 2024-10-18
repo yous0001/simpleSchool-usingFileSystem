@@ -62,3 +62,25 @@ export const addDepartment=async(req,res,next)=>{
 
     res.status(201).json({message:'updated succefully',newDepartment})
 }
+
+
+export const updateDepartment=async(req,res,next)=>{
+    const {id}=req.params
+    const {name}=req.body
+    const departments=await readData("departments.json")
+    const departmentIndex=departments.findIndex(item=>item.id==id)
+
+    if(departmentIndex==-1){
+        return res.status(404).json({
+            message:"department not Found"
+        })
+    }
+
+    const newDepartment={id,name}
+
+    departments.splice(departmentIndex,1,newDepartment)
+
+    await writeData("departments.json",departments)
+
+    res.status(200).json({message:'updated succuessfully',newDepartment})
+}
