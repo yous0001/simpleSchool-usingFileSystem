@@ -23,10 +23,10 @@ simple school</h1>
 <pre>
     1- Student apis:
       • Add student(email must be unique)
-      • Get all students with their department and courses related to the department
+      • Get all students 
       • delete student
       • update student
-      • search for a student by ID
+      • get a student by ID with his department and courses related to the department
     2- Course apis:
       • Add courses 
       • Delete Course
