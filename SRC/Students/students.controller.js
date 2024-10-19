@@ -25,7 +25,7 @@ export const getStudentById=async(req,res,next) => {
     student.department=department
 
     const courses=await readData("courses.json")
-    const course=courses.find(item=>item.departmentID==student.departmentID)
+    const course=courses.filter(item=>item.departmentID==student.departmentID)
 
     student.course=course
 
