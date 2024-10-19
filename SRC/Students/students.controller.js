@@ -63,3 +63,51 @@ export const addStudent=async(req,res,next) => {
 
     res.status(201).json({ message: 'Student added successfully', newStudent });
 }
+
+export const updateStudent=async(req,res,next) => {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+    
+    if(!id ||!(name ||email ||password)){
+        return res.status(400).json({ message: 'Please complete data' });
+    }
+    
+    let students = await readData('students.json');
+    const studentIndex = students.findIndex(student => student.id == id);
+    if(studentIndex === -1){
+        return res.status(404).json({ message: 'Student not found' });
+    }
+    
+    if(email){
+        const isEmailExists = students.find(student => student.email === email);
+        if(isEmailExists){
+            return res.status(409).json({ message: 'Email already exists' });
+        }
+    }
+    
+    const updatedStudent = students[studentIndex]
+    updatedStudent.name = name || updatedStudent.name;
+    updatedStudent.email = email || updatedStudent.email;
+    updateStudent.password = password || updatedStudent.password;
+    
+    students[studentIndex] = updatedStudent;
+
+    await writeData('students.json', students);
+    
+    res.status(200).json({ message: 'Student updated successfully', updatedStudent });
+}
+
+export const deleteStudent=async(req,res,next) => {
+    const { id } = req.params;
+    
+    let students = await readData('students.json');
+    const studentIndex = students.findIndex(student => student.id == id);
+    if(studentIndex === -1){
+        return res.status(404).json({ message: 'Student not found' });
+    }
+    
+    students.splice(studentIndex, 1);
+    await writeData('students.json', students);
+    
+    res.status(200).json({ message: 'Student deleted successfully' });
+}
