@@ -5,5 +5,7 @@ const router =Router()
 
 router.get("/",coursesController.getCourses)
 router.post("/add",coursesController.addCourses)
+router.get("/:id",coursesController.getSpecificCourse)
+router.put("/:id",coursesController.updateCourse)
 
 export default router

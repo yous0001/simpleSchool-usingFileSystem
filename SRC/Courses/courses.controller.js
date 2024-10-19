@@ -41,3 +41,49 @@ export const addCourses=async(req,res,next)=>{
 
     res.status(201).json({message:'updated succefully',newCourse})
 }
+
+
+export const getSpecificCourse=async(req,res,next)=>{
+    const {id}=req.params
+    const courses=await readData("courses.json")
+    const course=courses.find(course=>course.id==id)
+
+    if(!course){
+        return res.status(404).json({
+            message:"course not Found"
+        })
+    }
+    res.status(200).json({message:'done',course})
+}
+
+export const updateCourse=async(req,res,next)=>{
+    const {id}=req.params
+    const {name,content}=req.body;
+
+    if(!(name||content)|| !id){
+        return res.status(400).json({
+            message:"please provide name or content with id"
+        })
+    }
+
+    const courses=await readData("courses.json")
+    const courseIndex=courses.findIndex(course=>course.id==id)
+    const course =courses[courseIndex]
+    
+    if(course==-1){
+        return res.status(404).json({
+            message:"course not Found"
+        })
+    }
+
+    
+    if(name)
+        course.name=name;
+    if(content)
+        course.content=content;
+
+    courses.splice(courseIndex, 1,course);
+
+    await writeData("courses.json",courses)
+    res.status(200).json({message:'update done',course})
+}
