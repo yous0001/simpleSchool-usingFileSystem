@@ -70,7 +70,7 @@ export const updateCourse=async(req,res,next)=>{
     const courseIndex=courses.findIndex(course=>course.id==id)
     const course =courses[courseIndex]
     
-    if(course==-1){
+    if(courseIndex==-1){
         return res.status(404).json({
             message:"course not Found"
         })
@@ -86,4 +86,30 @@ export const updateCourse=async(req,res,next)=>{
 
     await writeData("courses.json",courses)
     res.status(200).json({message:'update done',course})
+}
+
+export const deleteCourse=async(req,res,next)=>{
+    const {id}=req.params
+
+    if(!id){
+        return res.status(400).json({
+            message:"you must provide id of course"
+        })
+    }
+
+    const courses=await readData("courses.json")
+
+    const courseIndex=courses.findIndex(course=>course.id==id)
+    
+    if(courseIndex==-1){
+        return res.status(404).json({
+            message:"course not Found"
+        })
+    }
+
+
+    courses.splice(courseIndex, 1);
+
+    await writeData("courses.json",courses)
+    res.status(200).json({message:'deleted successfully'})
 }

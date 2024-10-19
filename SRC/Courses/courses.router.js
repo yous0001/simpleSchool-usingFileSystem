@@ -7,5 +7,6 @@ router.get("/",coursesController.getCourses)
 router.post("/add",coursesController.addCourses)
 router.get("/:id",coursesController.getSpecificCourse)
 router.put("/:id",coursesController.updateCourse)
+router.delete("/:id",coursesController.deleteCourse)
 
 export default router
